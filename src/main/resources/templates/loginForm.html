@@ -7,6 +7,9 @@
 <h1>로그인 페이지</h1>
 <hr />
 <form action="/login" method="post">
+
+    <!-- 꼭 username으로 적어야 한다!
+    그렇지 않으면 PrincipalDetailsService.loadUserByUsername의 파라미터와 매칭되지 않는다. -->
     <input type="text" name="username" placeholder="Username" /> <br />
     <input type="password" name="password" placeholder="Password" /> <br />
     <button>로그인</button>

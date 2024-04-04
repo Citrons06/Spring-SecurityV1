@@ -4,6 +4,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -25,16 +26,13 @@ public class SecurityConfig {
      */
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.csrf(cs -> cs.disable())
-                .sessionManagement(s -> s.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .formLogin(f -> f.disable())
-                .httpBasic(h -> h.disable());
+        http.csrf(AbstractHttpConfigurer::disable);
 
         //권한 부여
         //authorizeRequests가 deprecated됨에 따라 authorizeHttpRequests 사용 권장
         http.authorizeHttpRequests(authorize -> {
             authorize
-                    .requestMatchers("/user/**").hasAnyRole("hasRole('ROLE_USER') or hasRole('ROLE_MANAGER') or hasRole('ROLE_ADMIN')")
+                    .requestMatchers("/user/**").authenticated()
                     .requestMatchers("/manager/**").hasAnyRole("hasRole('ROLE_MANAGER') or hasRole('ROLE_ADMIN')")
                     .requestMatchers("/admin/**").hasAnyRole("hasRole('ROLE_ADMIN')")
                     .anyRequest().permitAll();  //이외의 요청은 모두 허용

@@ -4,6 +4,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import spring.securitybasicv1.model.User;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 /**
@@ -23,38 +24,51 @@ public class PrincipalDetails implements UserDetails {
         this.user = user;
     }
 
+    //해당 User의 권한을 리턴하는 곳
+    //ArrayList는 Collection의 자식
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        Collection<GrantedAuthority> collect = new ArrayList<>();
+        collect.add(new GrantedAuthority() {
+            @Override
+            public String getAuthority() {
+                return user.getRole();
+            }
+        });
+        return collect;
     }
 
     @Override
     public String getPassword() {
-        return null;
+        return user.getPassword();
     }
 
     @Override
     public String getUsername() {
-        return null;
+        return user.getUsername();
     }
 
+    //계정이 만료되었는가?
     @Override
     public boolean isAccountNonExpired() {
-        return false;
+        return true;
     }
 
+    //계정이 락되었는가?
     @Override
     public boolean isAccountNonLocked() {
-        return false;
+        return true;
     }
 
+    //패스워드를 너무 오래 사용하였는가?
     @Override
     public boolean isCredentialsNonExpired() {
-        return false;
+        return true;
     }
 
+    //계정이 활성화되어 있는가?
     @Override
     public boolean isEnabled() {
-        return false;
+        return true;
     }
 }
