@@ -8,12 +8,15 @@
 <hr />
 <form action="/login" method="post">
 
-    <!-- 꼭 username으로 적어야 한다!
-    그렇지 않으면 PrincipalDetailsService.loadUserByUsername의 파라미터와 매칭되지 않는다. -->
+    <!-- 꼭 username 으로 적어야 한다!
+    그렇지 않으면 PrincipalDetailsService.loadUserByUsername(String username)의 파라미터와 매칭되지 않는다. -->
     <input type="text" name="username" placeholder="Username" /> <br />
     <input type="password" name="password" placeholder="Password" /> <br />
     <button>로그인</button>
 </form>
+<a href="/oauth2/authorization/google">구글 로그인</a>
+<a href="/oauth2/authorization/facebook">페이스북 로그인</a>
+<a href="/oauth2/authorization/naver">네이버 로그인</a>  <!-- https:/nid.naver.com/oauth2.0/authorize 호출됨 -->
 <a href="/joinForm">회원가입은 여기!</a>
 </body>
 </html>
